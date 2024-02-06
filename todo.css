@@ -2,47 +2,40 @@
 *{
     box-sizing: border-box;
     font-family:'Poppins', sans-serif ;
-    /* overflow-y: hidden; */
 }
-
-html, body{
-    /* height: 100%; */
-    overflow-y: hidden;
-}
-body{
-    margin: 0%;
-    padding: 0%;
+html, body {
+    margin: 0;
+    padding: 0;
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    background: url(/images/snow.jpg);
+    background: url(./images/snow.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
-    overflow-y: hidden;
+    background-position: center center;
     align-items: center;
     justify-content: center;
-    /* background: rgb(182, 102, 219); */
+    position: static;
+}
+/*to make the background fixed */
+body {
+    background-attachment: fixed;
 }
 h1{
     text-align: center;
     margin-top: 0px;
-    margin-bottom: 1 0px;
+    margin-bottom: 5vh;
     color:black;
-    text-shadow: 0 0 5px white, 0 0 7px white;
-    
+    text-shadow: 0 0 5px white, 0 0 7px white;   
 }
 .wrapper{
-    position: absolute;
+    position: fixed;
     max-width: 500px;
-    /* min-height: 350px; */
     margin: 180px auto;
-    /* padding: 28px 0 30px; */
-    /* background: #0f0f0f; */
     border-radius: 7px;
     padding: 28px 0;
     background-color: rgba(0, 0, 0, 0.4);
-    transform: translateY(-0%);
+    transform: translateY(5%);
 }
 .task-input{
     max-height:52px ;
@@ -57,8 +50,7 @@ h1{
 }
 
 /* Apply the animation to the GIF element */
-#gif {
-    
+#gif {   
     animation: rotate 2s linear infinite;
     cursor: pointer; /* Add a pointer cursor to indicate it's clickable */
 }
@@ -122,10 +114,10 @@ h1{
     color: white;
     margin: 0px 25px;
     overflow: auto;
-    max-height: 280px;
+    max-height: 260px;
     width: 380px;
     overflow-x: hidden;
-    padding: 0px;
+    padding: 0;
 }
 .task-box::-webkit-scrollbar {
     width: 6px;               /* width of the entire scrollbar */
@@ -134,12 +126,10 @@ h1{
     background: rgb(217, 219, 54); 
     border-radius: 20px;          /* color of the tracking area */
   }
-  
   .task-box::-webkit-scrollbar-thumb {
     background-color: rgb(17, 17, 15);    /* color of the scroll thumb */
     border-radius: 5px;       /* roundness of the scroll thumb */
-  }
-  
+  } 
 .task-box .task{
     list-style: none;
     font-size: 17px;
@@ -152,8 +142,13 @@ h1{
     border-bottom: 0;
     padding-bottom: 0;
 }
+.task label p {
+    max-width: 90%;
+}
 .task label{
     display: flex;
+    inline-size: 350px;    
+    overflow-wrap: break-word;
 }
 .task label p.checked{
     text-decoration: line-through;
@@ -167,7 +162,6 @@ h1{
     cursor: pointer;
     position: relative;
 }
-
 .settings .task-menu{
     position: absolute;
     padding: 3px 0;
@@ -182,13 +176,13 @@ h1{
     box-shadow: 0 0 6px rgba(0,0,0,0.15);
 }
 
-/* Style for the edit and delete buttons within the last task */
+/* edit and delete buttons within the last task */
 .filters-all .task:last-child .settings ul.task-menu li,
 .filters-pending .task:last-child .settings ul.task-menu li,
 .filters-completed .task:last-child .settings ul.task-menu li {
-    /* Add your styling for edit and delete buttons here */
-    position: relative;
+   position: relative;
 }
+
 .filters-all .task:last-child .settings .task-menu{
     bottom: -15px;
 }
@@ -221,7 +215,6 @@ h1{
 .task-menu:last-child{
     margin-bottom: 0;
 }
-
 .task-menu li:hover{
     background: #c8cf85;
 }
@@ -229,7 +222,6 @@ h1{
     padding-right: 10px;
 }
 .notification {
-    width: 25%;
     border-radius: 8px;
     box-sizing: border-box;
     text-align: center;
@@ -238,7 +230,6 @@ h1{
     font-size: 18px;
     position:fixed;
     bottom: 88%;
-    min-width :45px;
 }
 
 .success {
@@ -251,7 +242,6 @@ h1{
     background-color: rgb(252, 202, 64);
     color: black;
 }
-
 .danger {
     background-color: rgb(219, 15, 15);
 }
@@ -267,18 +257,40 @@ h1{
     background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
     justify-content: center;
     align-items: center;
-    z-index: 1000; /*Ensure it appears above other elements */
+    z-index: 1000; 
 }
 
 /* Style for the modal popup */
 .popup {
-background: rgb(11,73,39);
-background: linear-gradient(0deg, rgba(11,73,39,1) 0%, rgba(207,196,34,1) 100%);
+    background-image: linear-gradient( 109.6deg,  rgba(121,203,202,1) 11.2%, rgba(119,161,211,1) 91.1% );
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     text-align: center;
     border-radius: 10px;
     animation: fadeIn 0.5s ease-in-out;
+    max-width: 400px; /* maximum width of the popup */
+    width: 100%; /* popup take the full width */
+}
+
+/* Container for the task area with scrolling */
+.task-container {
+    max-height: 80px; /* Set the maximum height for the task area */
+    overflow-y: auto; /* scrollbar if content exceeds the maximum height */
+    overflow-wrap: break-word;
+    color: white;
+}
+
+/* Scrollbar Styles for WebKit Browsers (Chrome, Safari) */
+.task-container::-webkit-scrollbar {
+    width: 6px; /* width of the scrollbar */
+}
+.task-container::-webkit-scrollbar-track{
+    background: #e5e6bb;
+    border-radius: 20px;
+}
+.task-container::-webkit-scrollbar-thumb{
+    background: rgb(17, 17, 15);
+    border-radius: 5px;
 }
 
 .overlay.show {
@@ -292,12 +304,12 @@ body.popup-open .overlay {
     position: fixed;
 }
 
-/* Style for the modal content (text and buttons) */
+/* modal content (text and buttons) */
 .popup p {
     margin-bottom: 10px;
     text-align: center;
 }
-/* Style for the OK and Cancel buttons */
+/* OK and Cancel buttons */
 .btn {
     padding: 10px 20px;
     margin: 10px;
@@ -332,4 +344,25 @@ body.popup-open .overlay {
 /* Hover effect for buttons */
 .btn:hover {
     opacity: 0.8;
+}
+
+.filter-counts {
+    display: flex;
+    justify-content: space-between;
+    width: 200px; /* Adjust the width as needed */
+    margin: 0 auto; /* Center the filter counts */
+}
+.filter-count {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+.filter-count-container{
+    color:rgb(5, 5, 5);
+    text-shadow: 0 0 2px rgb(255, 255, 255), 0 0 7px white;
+    margin: 0 8px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 15px;
 }

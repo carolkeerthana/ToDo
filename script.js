@@ -2,10 +2,11 @@ const taskInput = document.querySelector(".task-input input"),
 notification = document.querySelector(".notification"),
 filters = document.querySelectorAll(".filters span"),
 clearAll = document.querySelector(".clear-btn"),
-okButton = document.querySelector(".btn btn-ok"),
-cancelButton = document.querySelector(".btn btn-cancel"),
 iconClick = document.querySelector(".icon"),
-taskBox = document.querySelector(".task-box");
+taskBox = document.querySelector(".task-box"),
+allCountContainer = document.getElementById("all-count"),
+pendingCountContainer = document.getElementById("pending-count"),
+completedCountContainer = document.getElementById("completed-count");
 
 let editId;
 let isEditedTask = false;
@@ -31,6 +32,9 @@ function showNotification(text, id) {
 
 function showTodo(filter){
     let li = "";
+    let totalTasks = 0;
+    let pendingTasks = 0;
+    let completedTasks = 0;
     if(todos){
         todos.forEach((todo, id) => {
             //if todo status is completed, set the isCompleted value to checked
@@ -50,15 +54,55 @@ function showTodo(filter){
                         </ul>
                         </div>
                       </li>`;
+
+                    // Count tasks based on the selected filter
+                    totalTasks++;
+
+                    if (todo.status === "pending") {
+                        pendingTasks++;
+                    } else if (todo.status === "completed") {
+                        completedTasks++;
+                    }
+
                     }
                 });
             }
-             // Set the filter-specific class on the taskBox container
+            // Set the filter-specific class on the taskBox container
             taskBox.className = `task-box filters-${filter}`;
-    // if li isn't empty, insert this value inside taskbox else insert span
-    taskBox.innerHTML = li || `<span>You don't have any task here</span>`;
+            // if li isn't empty, insert this value inside taskbox else insert span
+            taskBox.innerHTML = li;
+
+            updateTaskCounts(filter, totalTasks, pendingTasks, completedTasks);
 }
 showTodo("all");
+
+// Updating the task count containers based on the selected filter
+function updateTaskCounts(filter, totalTasks, pendingTasks, completedTasks){
+    allCountContainer.textContent = "";
+    pendingCountContainer.textContent = "";
+    completedCountContainer.textContent = "";
+
+    if (filter === "all") {
+        allCountContainer.textContent = `You have total ${totalTasks} tasks`;
+    } else if (filter === "pending") {
+        pendingCountContainer.textContent = `You have ${pendingTasks} pending tasks`;
+    } else if (filter === "completed") {
+        completedCountContainer.textContent = `You have completed ${completedTasks} tasks`;
+    }
+}
+
+// Updating the showTask function to display counts based on the active filter
+function showTask() {
+    const activeFilter = document.querySelector("span.active").id;
+
+    if (activeFilter === "all") {
+        showTodo("all");
+    } else if (activeFilter === "completed") {
+        showTodo("completed");
+    } else {
+        showTodo("pending");
+    }
+}
 
 function showMenu(selectedTask){
     //getting task menu div
@@ -83,7 +127,11 @@ let taskToDelete; // Store the selected task globally for deletion confirmation
 
 // Function to show the delete confirmation popup
 function showDeleteConfirmationPopup() {
-    document.getElementById('taskDetails').innerHTML = `Are you sure you want to delete the task? <br><br> <strong>${taskToDelete.name}</strong>`;
+    const taskDetailsContainer = document.getElementById('taskDetails');
+    taskDetailsContainer.innerHTML = `<strong>Are you sure you want to delete the task?</strong> <br><br> <div id="taskDetailsContent" class="task-container"> ${taskToDelete.name} </div>`;
+    // class to the popup to style the container
+    taskDetailsContainer.classList.add('popup-delete');
+
     document.getElementById('deleteConfirmationOverlay').style.display = 'flex';
 }
 
@@ -117,17 +165,6 @@ function confirmDeleteTask() {
         hideDeleteConfirmationPopup(); // Hide the delete confirmation popup
         showNotification("Deleted the task", "danger");
         showTask();
-}
-
-// Function to call the active task
-function showTask(){
-    if(document.querySelector("span.active").id == "all"){
-        showTodo("all");
-    }else if(document.querySelector("span.active").id == "completed"){
-        showTodo("completed");
-    }else {
-        showTodo("pending");
-    }
 }
 
 // Function to show the popup
@@ -194,12 +231,29 @@ function updateStatus(){
     showTask();
 }
 
+taskInput.addEventListener("input", function(event){
+    const enteredChar = event.data;
+    const regex = /^[a-zA-Z0-9 ]*$/;
+    if(!regex.test(enteredChar)){
+        taskInput.value = taskInput.value.replace(enteredChar, '');
+    showNotification("Invalid character entered", "warning");
+    }
+});
+
 taskInput.addEventListener("keyup", e =>{
 //preventing to enter empty values using  trim() & if cdn(userTask)
     let userTask = taskInput.value.trim();
 
-    if(e.key == "Enter" && userTask){
-        addTask();
+    // Check if the key pressed is Enter and userTask is not empty
+    if (e.key === "Enter" && userTask) {
+        // Check if the entered task contains only alphabets and numbers
+        if (/^[a-zA-Z0-9 ]*$/.test(userTask)) {
+            // Add task only if the entered task is valid
+            addTask();
+        } else {
+            // Display a notification about the invalid character
+            showNotification("Invalid character entered", "warning");
+        }
     }
 });
 
@@ -223,7 +277,11 @@ function addTask(){
     }
     taskInput.value = "";
     localStorage.setItem("todo-list", JSON.stringify(todos)); //saving to localStorage with todo-list name
-    showTask();
+    
+        // Set the active filter to "All" after adding the task
+        setActiveFilter("all");
+
+        showTask();  // This will now show tasks for the "All" filter
 }else {
     // Show a notification or handle the case when the task already exists
     if(userTask !=""){
@@ -234,9 +292,20 @@ function addTask(){
 }
 }
 
+function setActiveFilter(filter) {
+    const filterButtons = document.querySelectorAll('.filters span');
+
+    filterButtons.forEach(button => {
+        button.classList.remove('active');  // Remove 'active' class from all filter buttons
+        if (button.id === filter) {
+            button.classList.add('active');  // Add 'active' class to the selected filter button
+        }
+    });
+}
+
 // Function to check if the task already exists
 function isTaskAlreadyExists(task) {
-    return todos.some(todo => todo.name === task);
+    return Array.isArray(todos) && todos.some(todo => todo.name === task);
 }
 
 // Add an event listener to the GIF for the save operation
