@@ -151,6 +151,7 @@ function deleteTask(deleteId) {
         id: deleteId,
         name: todos[deleteId].name
     };
+    taskInput.value = "";
     
     // Show the delete confirmation popup
     showDeleteConfirmationPopup();
@@ -285,8 +286,8 @@ function addTask(){
     // Show a notification or handle the case when the task already exists
     if(userTask !=""){
     showNotification("Task already exists", "warning");
-    taskInput.value = "";
     // taskInput.focus();
+    taskInput.value = "";
     }
 }
 }
