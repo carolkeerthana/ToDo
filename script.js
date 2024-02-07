@@ -63,7 +63,6 @@ function showTodo(filter){
                     } else if (todo.status === "completed") {
                         completedTasks++;
                     }
-
                     }
                 });
             }

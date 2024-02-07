@@ -53,13 +53,9 @@ h1{
 #gif {   
     animation: rotate 2s linear infinite;
     cursor: pointer; /* Add a pointer cursor to indicate it's clickable */
-}
-
- /* Task input container style */
- .task-input img{
     position: absolute;
     display: flex;
-    transform: translate(340px,-102%);
+    transform: translate(366px,-103%);
     align-items: center;
 }
 
@@ -149,6 +145,7 @@ h1{
     display: flex;
     inline-size: 350px;    
     overflow-wrap: break-word;
+    cursor: pointer;
 }
 .task label p.checked{
     text-decoration: line-through;
