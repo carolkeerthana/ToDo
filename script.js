@@ -27,7 +27,7 @@ function showNotification(text, id) {
     setTimeout(() => {
         notification.textContent = ""
         notification.classList.remove(`${id}`)
-    }, 1500)
+    }, 1000)
 }
 
 function showTodo(filter){
@@ -167,6 +167,36 @@ function confirmDeleteTask() {
         showTask();
 }
 
+// --------------ClearALL----------------------
+// Function to update "Clear All" button state
+function updateClearAllButtonState() {
+    clearAll.disabled = taskInput.value.trim() === "" && (!localStorage.getItem("todo-list") || JSON.parse(localStorage.getItem("todo-list")).length === 0);
+}
+
+// Function to check if there are tasks in localStorage
+function checkLocalStorageTasks() {
+    updateClearAllButtonState();
+}
+
+// Event listener for input changes
+taskInput.addEventListener("input", updateClearAllButtonState);
+
+// Call the function when the page loads
+window.addEventListener("load", checkLocalStorageTasks);
+
+// CSS to change cursor style when hovering over disabled button
+clearAll.addEventListener("mouseover", function() {
+    if (clearAll.disabled) {
+        clearAll.style.cursor = "not-allowed";
+        clearAll.style.opacity = "0.5"; // Dimming the button
+    }
+});
+
+clearAll.addEventListener("mouseout", function() {
+    clearAll.style.cursor = ""; // Reset cursor style when mouse moves out
+    clearAll.style.opacity = ""; // Reset opacity when mouse moves out
+});
+
 // Function to show the popup
 function showPopup() {
     document.getElementById('confirmationPopup').style.display = 'flex';
@@ -184,6 +214,9 @@ function confirmClear(){
     localStorage.setItem("todo-list", JSON.stringify(todos));
     showTodo("all");
     hidePopup();
+
+    // Disable the "Clear All" button after clearing todos
+    clearAll.setAttribute("disabled", "disabled");
 }
 
 clearAll.addEventListener("click", showPopup);
@@ -259,6 +292,16 @@ taskInput.addEventListener("keyup", e =>{
 
 function addTask(){
     let userTask = taskInput.value.trim();
+
+     // Limiting the userTask to 100 characters
+     if (userTask.length > 100) {
+        showNotification("Task should be less than 100 characters", "warning");
+        userTask = userTask.substring(0, 100); // Truncate the input to 100 characters
+        taskInput.value = userTask; // Update the input field value
+        return; // Exit the function early
+    }
+
+
     if(!isTaskAlreadyExists(userTask) && userTask.length>0){
     if(!isEditedTask){ //if isEditedTask isn't true
         if(!todos){ // if todos isn't exist, pass an empty array to todos
@@ -267,21 +310,32 @@ function addTask(){
         //by default task status will be pending
         let taskInfo = {name: userTask, status: "pending"};
         todos.unshift(taskInfo); //adding new task to todos
+        clearAll.disabled = false;
         showNotification("Task is Added Successfully", "success");
     }else{
         isEditedTask = false;
         let editedTask = todos.splice(editId, 1)[0];
         editedTask.name = userTask;
         todos.unshift(editedTask); 
-        // todos[editId].name = userTask;
     }
+
     taskInput.value = "";
+        
+      // Scroll the page to the top
+      taskBox.scrollTo(0, 0);
+      
     localStorage.setItem("todo-list", JSON.stringify(todos)); //saving to localStorage with todo-list name
     
-        // Set the active filter to "All" after adding the task
-        setActiveFilter("all");
+    // Set the active filter to "All" after adding the task
+    setActiveFilter("all");
 
-        showTask();  // This will now show tasks for the "All" filter
+    showTask();  // This will now show tasks for the "All" filter
+
+    if (todos.length > 0) {
+        clearAll.removeAttribute("disabled");
+    } else {
+        clearAll.setAttribute("disabled", "disabled");
+    }
 }else {
     // Show a notification or handle the case when the task already exists
     if(userTask !=""){

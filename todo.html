@@ -9,14 +9,17 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 </head>
 <body>
-    <p class="notification"></p>
+<header>
+<p class="notification"></p>
+</header>
+<main class="content">
     <div class="wrapper">
         <h1>Todo List</h1>
         <div class="task-input">
             <img src="pen-solid.svg" alt="icon" class="pen" width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
             <input type="text" placeholder="Add a new task">
+            <img src="images/save.gif" alt="Animated Icon" class="icon" id="gif" width="35" height="33" viewBox="0 0 16 16" fill="currentColor">
         </div>
-        <img src="images/save.gif" alt="Animated Icon" class="icon" id="gif" width="35" height="33" viewBox="0 0 16 16" fill="currentColor">
 
         <div class="controls">
             <div class="filters">
@@ -57,9 +60,11 @@
             <span id="all-count">Total Tasks: 0</span>
             <span id="pending-count">Pending Tasks: 0</span>
             <span id="completed-count">Completed Tasks: 0</span>
-        </div>
-       
+        </div>    
     </div>
+</main>
     <script src="script.js"></script>
+    <footer>
+    </footer>
 </body>
 </html>
