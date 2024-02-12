@@ -144,6 +144,7 @@ h1{
     overflow-x: hidden;
     padding: 0;
 }
+
 .task-box::-webkit-scrollbar {
     width: 6px;               /* width of the entire scrollbar */
   }
@@ -155,6 +156,14 @@ h1{
     background-color: rgb(17, 17, 15);    /* color of the scroll thumb */
     border-radius: 5px;       /* roundness of the scroll thumb */
   } 
+  /* Firefox scrollbar styles */
+@supports (-moz-appearance:none) {
+    .task-box {
+        scrollbar-width: thin;
+        scrollbar-color: rgb(17, 17, 15) rgb(217, 219, 54);
+    }
+}
+  
 .task-box .task{
     list-style: none;
     font-size: 17px;
@@ -395,14 +404,16 @@ body.popup-open .overlay {
     padding-top: 5px;
 }
 
-/* Default styles for all resolutions */
-/* Your existing CSS styles here */
-/* Styles for resolutions narrower than 600px */
-@media only screen and (min-width: 280px) and (max-width: 400px)  and (max-height: 750px) {
-    /* Adjust styles for smaller screens here */
+/* styles for all resolutions */
+
+@media only screen and (min-width: 280px) and (max-width: 550px)  and (max-height: 800px) {
+
     .wrapper {
-      max-width: 95%; /* Example adjustment */
+      max-width: 95%;
       margin: 90px auto;
+    }
+    .task-input .icon {   
+        right: 8%;
     }
     .filters span{
         margin: 0 5px;
@@ -411,8 +422,7 @@ body.popup-open .overlay {
         padding: 1px 5px;
     }
     .task-box{
-        max-height: 250px;
-        /* width: 350px; */
+        max-height: 300px;
     }
     .task label p {
         max-width: 85%;
@@ -422,14 +432,15 @@ body.popup-open .overlay {
     }
   }
 
-/* Styles for resolutions narrower than 600px */
 @media only screen and (min-width: 390px) and (max-width: 750px) and (min-height: 751px) 
 and (max-height: 1000px){
-    /* Adjust styles for smaller screens here */
+
     .wrapper {
       max-width: 95%; 
-      /* transform: translateY(0%); */
-      margin: 90px auto;
+      margin: 100px auto;
+    }
+    .task-input .icon {   
+        right: 8%;
     }
     .filters span{
         margin: 0 7px;
@@ -438,23 +449,21 @@ and (max-height: 1000px){
         padding: 9px 13px;
     }
     .task-box{
-        max-height: 430px;
+        max-height: 435px;
     }
     .task label{
         inline-size: 300px;    
     }
   }
   
-  /* Styles for resolutions between 601px and 900px */
   @media only screen and (min-width: 751px) and (max-width: 1300px) and (min-height: 1000px) {
-    /* Adjust styles for medium screens here */
+
     .wrapper {
-        max-width: 60%; 
-        /* transform: translateY(0%); */
-        margin: 150px auto;
+        max-width: 70%; 
+        margin: 120px auto;
       }
       .task-input .icon {   
-        right: 4%;
+        right: 5%;
     }
       .filters span{
           margin: 0 7px;
@@ -463,19 +472,22 @@ and (max-height: 1000px){
           padding: 9px 13px;
       }
       .task-box{
-          max-height: 450px;
+          max-height: 500px;
       }
     .task label{
-        inline-size: 380px;    
+        inline-size: 520px;    
+    }
+    .notification {
+        width: 70%;
+        padding: 10px 35px ;
+        font-size: 18px;
     }
   }
   
-  /* Styles for resolutions wider than 901px */
   @media only screen and (min-width: 1300px) and (min-height: 1001px){
-    /* Adjust styles for larger screens here */
+
     .wrapper {
         max-width: 30%; 
-        /* transform: translateY(0%); */
         margin: 110px auto;
       }
       .task-input .icon {   
@@ -496,14 +508,17 @@ and (max-height: 1000px){
     .task label{
         inline-size: 450px;    
     }
+    .notification {
+        width: 30%;
+        padding: 10px 35px ;
+        font-size: 18px;
+    }
   }
-  
-   /* Styles for resolutions wider than 901px */
+  /* galaxy fold */
    @media only screen and (max-width: 280px) and (max-height: 700px){
-    /* Adjust styles for larger screens here */
+
     .wrapper {
         max-width: 95%; 
-        /* transform: translateY(0%); */
         margin: 70px auto;
       }
       .task-input{
@@ -535,6 +550,37 @@ and (max-height: 1000px){
     }
     .notification {
         padding: 5px 20px ;
+        font-size: 18px;
+    }
+  }
+/* nest hub,max */
+  @media only screen and (min-width: 1000px) and (max-width: 1280px) and (max-height: 800px){
+
+    .wrapper {
+        max-width: 60%; 
+        margin: 75px auto;
+      }
+      .task-input .icon {   
+        right: 5%;
+    }
+      .filters span{
+          margin: 0 7px;
+      }
+      .controls .clear-btn{
+          padding: 9px 13px;
+      }
+      .task-box{
+          max-height: 230px;
+      }
+      .task label p {
+        max-width: 100%;
+    }
+    .task label{
+        inline-size: 500px;    
+    }
+    .notification {
+        width: 40%;
+        padding: 10px 35px ;
         font-size: 18px;
     }
   }

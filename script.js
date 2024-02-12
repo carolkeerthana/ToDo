@@ -182,7 +182,7 @@ function checkLocalStorageTasks() {
 taskInput.addEventListener("input", updateClearAllButtonState);
 
 // Call the function when the page loads
-window.addEventListener("load", checkLocalStorageTasks);
+window.addEventListener("DOMContentLoaded", checkLocalStorageTasks);
 
 // CSS to change cursor style when hovering over disabled button
 clearAll.addEventListener("mouseover", function() {
@@ -295,7 +295,7 @@ function addTask(){
 
      // Limiting the userTask to 100 characters
      if (userTask.length > 100) {
-        showNotification("Task should be less than 100 characters", "warning");
+        showNotification("Exceeded 100 characters", "warning");
         userTask = userTask.substring(0, 100); // Truncate the input to 100 characters
         taskInput.value = userTask; // Update the input field value
         return; // Exit the function early
