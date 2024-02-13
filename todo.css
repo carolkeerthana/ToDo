@@ -56,12 +56,16 @@ h1{
 }
 .wrapper{
     /* display: block; */
-    position:relative;
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
     width: 100%;
     max-width: 420px;
-    margin: 80px auto;
+    /* margin: 50px auto; */
     border-radius: 7px;
-    padding: 28px 0;
+    padding: 24px 0;
     background-color: rgba(0, 0, 0, 0.4);
     /* transform: translateY(12%); */
 }
@@ -261,11 +265,11 @@ h1{
     border-radius: 8px;
     box-sizing: border-box;
     text-align: center;
-    padding: 10px 35px ;
+    padding: 5px 35px ;
     color: #fff;
     font-size: 18px;
     position:fixed;
-    top: 0;
+    top: 0px;
     /* bottom: 90%; */
 }
 
@@ -311,7 +315,7 @@ h1{
 
 /* Container for the task area with scrolling */
 .task-container {
-    max-height: 80px; /* Set the maximum height for the task area */
+    max-height: 75px; /* Set the maximum height for the task area */
     overflow-y: auto; /* scrollbar if content exceeds the maximum height */
     overflow-wrap: break-word;
     color: white;
@@ -401,7 +405,7 @@ body.popup-open .overlay {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    padding-top: 5px;
+    padding-top: 2px;
 }
 
 /* styles for all resolutions */
@@ -410,7 +414,7 @@ body.popup-open .overlay {
 
     .wrapper {
       max-width: 95%;
-      margin: 90px auto;
+      /* margin: 90px auto; */
     }
     .task-input .icon {   
         right: 8%;
@@ -430,6 +434,10 @@ body.popup-open .overlay {
     .task label{
         inline-size: 270px;    
     }
+    .notification {
+        padding: 3px 15px ;
+        font-size: 18px;
+    }
   }
 
 @media only screen and (min-width: 390px) and (max-width: 750px) and (min-height: 751px) 
@@ -437,7 +445,7 @@ and (max-height: 1000px){
 
     .wrapper {
       max-width: 95%; 
-      margin: 100px auto;
+      /* margin: 100px auto; */
     }
     .task-input .icon {   
         right: 8%;
@@ -460,7 +468,7 @@ and (max-height: 1000px){
 
     .wrapper {
         max-width: 70%; 
-        margin: 120px auto;
+        /* margin: 120px auto; */
       }
       .task-input .icon {   
         right: 5%;
@@ -488,7 +496,7 @@ and (max-height: 1000px){
 
     .wrapper {
         max-width: 30%; 
-        margin: 110px auto;
+        /* margin: 110px auto; */
       }
       .task-input .icon {   
         right: 5%;
@@ -519,7 +527,7 @@ and (max-height: 1000px){
 
     .wrapper {
         max-width: 95%; 
-        margin: 70px auto;
+        /* margin: 70px auto; */
       }
       .task-input{
         padding: 0 15px;
@@ -558,7 +566,7 @@ and (max-height: 1000px){
 
     .wrapper {
         max-width: 60%; 
-        margin: 75px auto;
+        /* margin: 75px auto; */
       }
       .task-input .icon {   
         right: 5%;

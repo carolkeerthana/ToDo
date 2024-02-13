@@ -40,7 +40,7 @@
         <!-- For update popup -->
         <div id="statusUpdateOverlay" class="overlay">
             <div class="popup">
-                <p><b>Are you sure you want to update the task status?</b></p>
+                <p id="taskToUpdate"><b>Are you sure you want to update the task status?</b></p>
                 <button class="btn btn-ok" onclick="updateStatus()"><b>OK</b></button>
                 <button class="btn btn-cancel" onclick="cancelStatusUpdate()"><b>Cancel</b></button>
             </div>
@@ -48,7 +48,7 @@
         <!-- For delete popup -->
         <div id="deleteConfirmationOverlay" class="overlay">
             <div class="popup">
-                <p id="taskDetails">Are you sure you want to delete the task?</p><br>
+                <p id="taskDetails">Are you sure you want to delete the task?</p>
                 <button class="btn btn-ok" onclick="confirmDeleteTask()"><b>OK</b></button>
                 <button class="btn btn-cancel" onclick="cancelDeleteTask()"><b>Cancel</b></button>
             </div>

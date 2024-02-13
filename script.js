@@ -30,6 +30,7 @@ function showNotification(text, id) {
     }, 1000)
 }
 
+//  function is responsible for displaying tasks based on the specified filter.
 function showTodo(filter){
     let li = "";
     let totalTasks = 0;
@@ -115,19 +116,12 @@ function showMenu(selectedTask){
     });
 }
 
-function editTask(taskId, taskName){
-    editId = taskId;
-    isEditedTask = true;
-    taskInput.value = taskName;
-    taskInput.focus();
-}
-
 let taskToDelete; // Store the selected task globally for deletion confirmation
 
 // Function to show the delete confirmation popup
 function showDeleteConfirmationPopup() {
     const taskDetailsContainer = document.getElementById('taskDetails');
-    taskDetailsContainer.innerHTML = `<strong>Are you sure you want to delete the task?</strong> <br><br> <div id="taskDetailsContent" class="task-container"> ${taskToDelete.name} </div>`;
+    taskDetailsContainer.innerHTML = `<strong>Are you sure you want to delete the task?</strong> <br> <div id="taskDetailsContent" class="task-container"> ${taskToDelete.name} </div>`;
     // class to the popup to style the container
     taskDetailsContainer.classList.add('popup-delete');
 
@@ -224,7 +218,10 @@ clearAll.addEventListener("click", showPopup);
 let selectedCheckbox; // Store the selected checkbox globally
 
 // Function to show the status update popup
-function showStatusUpdatePopup() {
+function showStatusUpdatePopup(taskName) {
+    
+    // Display the task name in the existing paragraph element
+    document.getElementById('taskToUpdate').innerHTML = `<strong> Are you sure you want to update the task status? </strong> <br><div class="task-container"> ${taskName}</div>`;
     document.getElementById('statusUpdateOverlay').style.display = 'flex';
 }
 
@@ -236,7 +233,8 @@ function hideStatusUpdatePopup() {
 // Function to handle the checkbox click
 function handleCheckboxClick(event) {
     selectedCheckbox = event.target; // Store the selected checkbox
-    showStatusUpdatePopup(); // Show the status update popup
+    let taskName = selectedCheckbox.parentElement.querySelector('p').textContent; // Get the task name
+    showStatusUpdatePopup(taskName); // Show the status update popup
 }
 
 // Function to cancel the status update
@@ -247,14 +245,14 @@ function cancelStatusUpdate() {
 
 function updateStatus(){
 //getting paragraph that contains task name
-    let taskName = selectedCheckbox.parentElement.lastElementChild;
+    let taskName = document.getElementById('taskToUpdate').innerText;
     // showStatusUpdatePopup();
         if(selectedCheckbox.checked){
-            taskName.classList.add("checked");
+            selectedCheckbox.parentElement.lastElementChild.classList.add("checked");
             //updating the status of selected task to completed
             todos[selectedCheckbox.id].status = "completed";
         }else{
-            taskName.classList.remove("checked"); 
+            selectedCheckbox.parentElement.lastElementChild.classList.remove("checked"); 
             //updating the status of selected task to pending
             todos[selectedCheckbox.id].status = "pending";
         }
@@ -273,6 +271,8 @@ taskInput.addEventListener("input", function(event){
     }
 });
 
+//--------To add a Task---------
+
 taskInput.addEventListener("keyup", e =>{
 //preventing to enter empty values using  trim() & if cdn(userTask)
     let userTask = taskInput.value.trim();
@@ -290,20 +290,40 @@ taskInput.addEventListener("keyup", e =>{
     }
 });
 
+// Add an event listener to the GIF for the save operation
+document.getElementById('gif').addEventListener('click', addTask);
+
+// Add a flag to track whether typing is currently disabled
+let typingDisabled = false;
+
+// Add an event listener to limit the input to 100 characters
+taskInput.addEventListener("input", function(event) {
+    let userInput = event.target.value; // Get the user input from the input field
+    // Limiting the userInput to 100 characters
+    if (userInput.length > 100 && !typingDisabled) {
+        typingDisabled = true; // Disable further typing
+        event.target.value = userInput.substring(0, 100); // Truncate the input to 100 characters
+        showNotification("Exceeds 100 characters", "warning");
+
+        // Allow typing again after a short delay
+        setTimeout(() => {
+            typingDisabled = false;
+        }, 10);
+    }
+});
+
 function addTask(){
     let userTask = taskInput.value.trim();
 
      // Limiting the userTask to 100 characters
      if (userTask.length > 100) {
         showNotification("Exceeded 100 characters", "warning");
-        userTask = userTask.substring(0, 100); // Truncate the input to 100 characters
-        taskInput.value = userTask; // Update the input field value
-        return; // Exit the function early
+        return; // Exit the function if the input exceeds 100 characters
     }
 
 
     if(!isTaskAlreadyExists(userTask) && userTask.length>0){
-    if(!isEditedTask){ //if isEditedTask isn't true
+    if(!isEditedTask){ //if isEditedTask is true
         if(!todos){ // if todos isn't exist, pass an empty array to todos
             todos = [];
         }
@@ -337,13 +357,25 @@ function addTask(){
         clearAll.setAttribute("disabled", "disabled");
     }
 }else {
-    // Show a notification or handle the case when the task already exists
+    // Shows a notification when the task already exists
     if(userTask !=""){
     showNotification("Task already exists", "warning");
-    // taskInput.focus();
     taskInput.value = "";
     }
 }
+}
+
+// Function to check if the task already exists
+function isTaskAlreadyExists(task) {
+    return Array.isArray(todos) && todos.some(todo => todo.name === task);
+}
+
+// editing a task
+function editTask(taskId, taskName){
+    editId = taskId;
+    isEditedTask = true;
+    taskInput.value = taskName;
+    taskInput.focus();
 }
 
 function setActiveFilter(filter) {
@@ -356,11 +388,3 @@ function setActiveFilter(filter) {
         }
     });
 }
-
-// Function to check if the task already exists
-function isTaskAlreadyExists(task) {
-    return Array.isArray(todos) && todos.some(todo => todo.name === task);
-}
-
-// Add an event listener to the GIF for the save operation
-document.getElementById('gif').addEventListener('click', addTask);
