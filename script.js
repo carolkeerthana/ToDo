@@ -104,6 +104,7 @@ function showTask() {
     }
 }
 
+// while pressing the settings icon
 function showMenu(selectedTask){
     //getting task menu div
     let taskMenu = selectedTask.parentElement.lastElementChild;
@@ -116,7 +117,22 @@ function showMenu(selectedTask){
     });
 }
 
+// -----Deleting a task---------
+
 let taskToDelete; // Store the selected task globally for deletion confirmation
+
+// Function to initiate task deletion
+function deleteTask(deleteId) {
+    // Store the task to delete globally
+    taskToDelete = {
+        id: deleteId,
+        name: todos[deleteId].name
+    };
+    taskInput.value = "";
+    
+    // Show the delete confirmation popup
+    showDeleteConfirmationPopup();
+}
 
 // Function to show the delete confirmation popup
 function showDeleteConfirmationPopup() {
@@ -133,24 +149,7 @@ function hideDeleteConfirmationPopup() {
     document.getElementById('deleteConfirmationOverlay').style.display = 'none';
 }
 
-// Function to cancel task deletion
-function cancelDeleteTask() {
-    hideDeleteConfirmationPopup(); // Hide the delete confirmation popup
-}
-
-// Function to initiate task deletion
-function deleteTask(deleteId) {
-    // Store the task to delete globally
-    taskToDelete = {
-        id: deleteId,
-        name: todos[deleteId].name
-    };
-    taskInput.value = "";
-    
-    // Show the delete confirmation popup
-    showDeleteConfirmationPopup();
-}
-
+// if ok btn is pressed
 function confirmDeleteTask() {
         // removing selected task from array/todos
         todos.splice(taskToDelete.id, 1);
@@ -159,6 +158,11 @@ function confirmDeleteTask() {
         hideDeleteConfirmationPopup(); // Hide the delete confirmation popup
         showNotification("Deleted the task", "danger");
         showTask();
+}
+
+// if cancel btn is pressed
+function cancelDeleteTask() {
+    hideDeleteConfirmationPopup(); // Hide the delete confirmation popup
 }
 
 // --------------ClearALL----------------------
@@ -215,7 +219,16 @@ function confirmClear(){
 
 clearAll.addEventListener("click", showPopup);
 
+// -----Updating a task---------
+
 let selectedCheckbox; // Store the selected checkbox globally
+
+// Function to handle the checkbox click
+function handleCheckboxClick(event) {
+    selectedCheckbox = event.target; // Store the selected checkbox
+    let taskName = selectedCheckbox.parentElement.querySelector('p').textContent; // Get the task name
+    showStatusUpdatePopup(taskName); // Show the status update popup
+}
 
 // Function to show the status update popup
 function showStatusUpdatePopup(taskName) {
@@ -230,19 +243,13 @@ function hideStatusUpdatePopup() {
     document.getElementById('statusUpdateOverlay').style.display = 'none';
 }
 
-// Function to handle the checkbox click
-function handleCheckboxClick(event) {
-    selectedCheckbox = event.target; // Store the selected checkbox
-    let taskName = selectedCheckbox.parentElement.querySelector('p').textContent; // Get the task name
-    showStatusUpdatePopup(taskName); // Show the status update popup
-}
-
 // Function to cancel the status update
 function cancelStatusUpdate() {
     selectedCheckbox.checked = !selectedCheckbox.checked; // Toggle the checkbox state back if canceled
     hideStatusUpdatePopup(); // Hide the status update popup
 }
 
+// Function to update the status
 function updateStatus(){
 //getting paragraph that contains task name
     let taskName = document.getElementById('taskToUpdate').innerText;
@@ -262,6 +269,7 @@ function updateStatus(){
     showTask();
 }
 
+// To allow only alphanumeric values
 taskInput.addEventListener("input", function(event){
     const enteredChar = event.data;
     const regex = /^[a-zA-Z0-9 ]*$/;
