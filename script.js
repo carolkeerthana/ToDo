@@ -331,7 +331,7 @@ function addTask(){
 
 
     if(!isTaskAlreadyExists(userTask) && userTask.length>0){
-    if(!isEditedTask){ //if isEditedTask is true
+    if(!isEditedTask){ //if isEditedTask isn't true
         if(!todos){ // if todos isn't exist, pass an empty array to todos
             todos = [];
         }
