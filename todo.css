@@ -270,6 +270,7 @@ h1{
     font-size: 18px;
     position:fixed;
     top: 0px;
+    /* width: 25%; */
     /* bottom: 90%; */
 }
 
@@ -462,6 +463,11 @@ and (max-height: 1000px){
     .task label{
         inline-size: 300px;    
     }
+    .notification {
+        width: 80%;
+        padding: 5px 35px ;
+        font-size: 18px;
+    }
   }
   
   @media only screen and (min-width: 751px) and (max-width: 1300px) and (min-height: 1000px) {
@@ -492,7 +498,7 @@ and (max-height: 1000px){
     }
   }
   
-  @media only screen and (min-width: 1300px) and (min-height: 1001px){
+  @media only screen and (min-width: 1400px) and (min-height: 800px){
 
     .wrapper {
         max-width: 30%; 
@@ -508,7 +514,7 @@ and (max-height: 1000px){
           padding: 9px 13px;
       }
       .task-box{
-          max-height: 500px;
+          max-height: 450px;
       }
       .task label p {
         max-width: 100%;
@@ -517,7 +523,7 @@ and (max-height: 1000px){
         inline-size: 450px;    
     }
     .notification {
-        width: 30%;
+        width: 25%;
         padding: 10px 35px ;
         font-size: 18px;
     }
@@ -566,7 +572,6 @@ and (max-height: 1000px){
 
     .wrapper {
         max-width: 60%; 
-        /* margin: 75px auto; */
       }
       .task-input .icon {   
         right: 5%;
@@ -588,7 +593,7 @@ and (max-height: 1000px){
     }
     .notification {
         width: 40%;
-        padding: 10px 35px ;
+        padding: 2px 25px ;
         font-size: 18px;
     }
   }
