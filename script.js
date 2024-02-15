@@ -154,7 +154,7 @@ function confirmDeleteTask() {
         // removing selected task from array/todos
         todos.splice(taskToDelete.id, 1);
         localStorage.setItem("todo-list", JSON.stringify(todos));
-        showTodo("all");
+        // showTodo("all");
         hideDeleteConfirmationPopup(); // Hide the delete confirmation popup
         showNotification("Deleted the task", "danger");
         showTask();
@@ -253,7 +253,6 @@ function cancelStatusUpdate() {
 function updateStatus(){
 //getting paragraph that contains task name
     let taskName = document.getElementById('taskToUpdate').innerText;
-    // showStatusUpdatePopup();
         if(selectedCheckbox.checked){
             selectedCheckbox.parentElement.lastElementChild.classList.add("checked");
             //updating the status of selected task to completed
@@ -331,7 +330,7 @@ function addTask(){
 
 
     if(!isTaskAlreadyExists(userTask) && userTask.length>0){
-    if(!isEditedTask){ //if isEditedTask isn't true
+    if(!isEditedTask){
         if(!todos){ // if todos isn't exist, pass an empty array to todos
             todos = [];
         }
@@ -347,15 +346,13 @@ function addTask(){
         todos.unshift(editedTask); 
     }
 
-    taskInput.value = "";
-        
-      // Scroll the page to the top
-      taskBox.scrollTo(0, 0);
-      
+    taskInput.value = "";  
     localStorage.setItem("todo-list", JSON.stringify(todos)); //saving to localStorage with todo-list name
     
     // Set the active filter to "All" after adding the task
     setActiveFilter("all");
+    // Scroll the page to the top
+    taskBox.scrollTo(0, 0);
 
     showTask();  // This will now show tasks for the "All" filter
 
